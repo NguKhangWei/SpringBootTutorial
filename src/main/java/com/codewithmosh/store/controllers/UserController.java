@@ -1,13 +1,12 @@
 package com.codewithmosh.store.controllers;
 
-import java.net.ResponseCache;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codewithmosh.store.dtos.UserDto;
 import com.codewithmosh.store.entities.User;
 import com.codewithmosh.store.repositories.UserRepository;
 
@@ -20,17 +19,20 @@ public class UserController {
     private final UserRepository userRepository;
     
     @GetMapping("")
-    public Iterable<User> getAllUsers(){
-        return this.userRepository.findAll();
+    public Iterable<UserDto> getAllUsers(){
+        return this.userRepository.findAll()
+                   .stream()
+                   .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail()))
+                   .toList();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id){
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
         var user = userRepository.findById(id).orElse(null);
         if (user == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);  
+        return ResponseEntity.ok(new UserDto(user.getId(), user.getName(), user.getEmail()));  
     }
 }
