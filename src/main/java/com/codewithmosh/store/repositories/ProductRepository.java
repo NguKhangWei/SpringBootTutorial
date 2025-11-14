@@ -2,8 +2,6 @@ package com.codewithmosh.store.repositories;
 
 import com.codewithmosh.store.entities.Product;
 
-import jakarta.persistence.Entity;
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.EntityGraph;

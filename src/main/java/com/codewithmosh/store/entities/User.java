@@ -15,6 +15,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users")
+@ToString(exclude = "addresses")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
